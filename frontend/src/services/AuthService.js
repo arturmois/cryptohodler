@@ -1,9 +1,12 @@
 export function doLogin(email, password) {
-  if (email === 'arturmoiscontato@gmail.com'
+  return new Promise((response, reject) => {
+    if (email === 'arturmoiscontato@gmail.com'
     && password === '123456') {
-    return true;
-  }
-  return false;
+      response(true);
+    }
+    reject('Usuário e/ou senha inválidos!');
+  });
+
 }
 
 export function doLogout() {

@@ -7,21 +7,26 @@ export default function Login() {
   const navitate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  function onChangeEmail(event) {
-    setEmail(event.target.value);
-  }
-
-  function onChangePassword(event) {
-    setPassword(event.target.value);
+  function onChangeInput(event) {
+    if (event.target.id === 'email')
+      setEmail(event.target.value);
+    else
+      setPassword(event.target.value);
   }
 
   function onSubmit(event) {
     event.preventDefault();
-    
-    const isValid = doLogin(email, password);
-    if(isValid)
-      navitate('/settings');
+
+    doLogin(email, password)
+      .then(isValid => {
+        if (isValid)
+          navitate('/settings');
+      })
+      .catch(err => {
+        setError(err);
+      });
   }
 
   return (
@@ -56,7 +61,7 @@ export default function Login() {
                           </path>
                         </svg>
                       </span>
-                      <input type="email" className="form-control" placeholder="Email" id="email" autoFocus required onChange={onChangeEmail} />
+                      <input type="email" className="form-control" placeholder="Email" id="email" autoFocus required onChange={onChangeInput} />
                     </div>
                   </div>
                   <div className="form-group">
@@ -69,7 +74,7 @@ export default function Login() {
                             </path>
                           </svg>
                         </span>
-                        <input type="password" placeholder="Senha" className="form-control" id="password" required onChange={onChangePassword} />
+                        <input type="password" placeholder="Senha" className="form-control" id="password" required onChange={onChangeInput} />
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-top mb-4">
@@ -91,11 +96,11 @@ export default function Login() {
                       Entrar
                     </button>
                   </div>
-                  {/* {
-                      error ?
-                        <div className="alert alert-danger mt-2">{error}</div>
-                        : <React.Fragment></React.Fragment>
-                    } */}
+                  {
+                    error ?
+                      <div className="alert alert-danger mt-2">{error}</div>
+                      : <></>
+                  }
                 </form>
               </div>
             </div>
