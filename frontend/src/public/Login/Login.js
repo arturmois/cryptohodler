@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { doLogin } from '../../services/AuthService';
 
 export default function Login() {
 
+  const navitate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,8 +16,12 @@ export default function Login() {
     setPassword(event.target.value);
   }
 
-  function onSubmit() {
-    console.log(email, password);
+  function onSubmit(event) {
+    event.preventDefault();
+    
+    const isValid = doLogin(email, password);
+    if(isValid)
+      navitate('/settings');
   }
 
   return (
@@ -93,7 +99,6 @@ export default function Login() {
                 </form>
               </div>
             </div>
-
           </div>
         </section>
       </main>
