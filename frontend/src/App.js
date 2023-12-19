@@ -1,9 +1,16 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './public/Login/Login';
+import Settings from './private/Settings/Settings';
 
-function App() {
+export default function App() {
   return (
-    <h1>Hello World</h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" exact element={<Login />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
