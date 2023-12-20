@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "npx nodemon ./src/server"
+    "start": "node -r dotenv/config ./src/server",
+    "dev": "npx nodemon -r dotenv/config ./src/server"
   },
   "dependencies": {
     "cors": "^2.8.5",
