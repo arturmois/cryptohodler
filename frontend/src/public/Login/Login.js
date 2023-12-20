@@ -18,14 +18,14 @@ export default function Login() {
 
   function onSubmit(event) {
     event.preventDefault();
-
     doLogin(email, password)
       .then(isValid => {
         if (isValid)
           navitate('/settings');
       })
       .catch(err => {
-        setError(err);
+        console.log(err);
+        setError('Usuário e/ou senha inválidos!');
       });
   }
 
