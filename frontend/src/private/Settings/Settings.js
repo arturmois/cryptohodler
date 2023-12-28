@@ -1,7 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getSettings } from '../../services/SettingsService';
 
 export default function Settings() {
+
+  const navigate = useNavigate();
+
+  const [error, setError] = useState('');
+  const [settings, setSettings] = useState({
+    email: ''
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    getSettings(token)
+      .then(response => {
+        setSettings(response);
+      })
+      .catch(err => {
+        if (err.response && err.response.status === 401)
+          return navigate('/');
+
+        if (err.response)
+          setError(err.response);
+        else
+          setError(err.message);
+      });
+  }, []);
+
   return (
     <div>
       <main>
@@ -12,8 +38,13 @@ export default function Settings() {
                 <svg className="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
                 </svg>
-                Settings
+                {settings.email}
               </Link>
+              {
+                error
+                  ? <div className='alert alert-danger'>{error}</div>
+                  : <></>
+              }
             </p>
           </div>
         </section>
