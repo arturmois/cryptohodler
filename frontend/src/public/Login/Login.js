@@ -19,9 +19,11 @@ export default function Login() {
   function onSubmit(event) {
     event.preventDefault();
     doLogin(email, password)
-      .then(isValid => {
-        if (isValid)
+      .then(response => {
+        if (response) {
+          localStorage.setItem('token', response.token);
           navitate('/settings');
+        }
       })
       .catch(err => {
         console.log(err);
