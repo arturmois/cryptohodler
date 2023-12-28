@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-export function doLogin(req, res, next) {
+export function doLogin(req, res) {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -17,6 +16,6 @@ export function doLogin(req, res, next) {
     res.sendStatus(401);
 }
 
-export function doLogout(req, res, next) {
+export function doLogout(req, res) {
   res.sendStatus(401);
 }
