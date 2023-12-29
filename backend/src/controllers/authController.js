@@ -16,6 +16,14 @@ export function doLogin(req, res) {
     res.sendStatus(401);
 }
 
+const blacklist = [];
+
 export function doLogout(req, res) {
-  res.sendStatus(401);
+  const token = req.headers['authorization'];
+  blacklist.push(token);
+  res.sendStatus(200);
+}
+
+export function isBlacklisted(token) {
+  return blacklist.some(t => t === token);
 }

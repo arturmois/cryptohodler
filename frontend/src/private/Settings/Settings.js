@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getSettings } from '../../services/SettingsService';
+import { doLogout } from '../../services/AuthService';
 
 export default function Settings() {
 
@@ -28,6 +29,18 @@ export default function Settings() {
       });
   }, []);
 
+  function onLogoutClick() {
+    const token = localStorage.getItem('token');
+    doLogout(token)
+      .then(() => {
+        localStorage.removeItem('token');
+        navigate('/');
+      })
+      .catch(err => {
+        setError(err.message);
+      });
+  }
+
   return (
     <div>
       <main>
@@ -40,6 +53,7 @@ export default function Settings() {
                 </svg>
                 {settings.email}
               </Link>
+              <button className='btn btn-primary' onClick={onLogoutClick}>Sair</button>
               {
                 error
                   ? <div className='alert alert-danger'>{error}</div>

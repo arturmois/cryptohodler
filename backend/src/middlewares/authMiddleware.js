@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { isBlacklisted } from '../controllers/authController.js';
 
 export default (req, res, next) => {
   const token = req.headers['authorization'];
@@ -6,8 +7,10 @@ export default (req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       if (decoded) {
-        res.locals.token = decoded;
-        return next();
+        if (!isBlacklisted(token)) {
+          res.locals.token = decoded;
+          return next();
+        }
       }
     } catch (err) {
       console.error(err);
